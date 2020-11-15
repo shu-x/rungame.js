@@ -15,7 +15,7 @@ const ctx = canvas.getContext('2d');
  * 動作用の変数
  */
 // 1フレームで移動するビット
-const BIT_PER_FRAME = 10;
+const BIT_PER_FRAME = 7;
 // どれだけ動かすかの変数(上限は1000)
 let move_i = 0;
 // なめらかにジャンプするための変数
