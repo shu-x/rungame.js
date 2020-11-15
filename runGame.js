@@ -31,6 +31,7 @@ let obstacles = [];
 // 障害物分類用
 const RHOMBUS = 'rhombus';
 const GOOMBA = 'goomba';
+const IMAGE = 'image';
 
 /**
  * 地面
@@ -160,9 +161,11 @@ function draw_human(){
 function draw_obstacles(ob){
     let shape = ob.shape;
     if(shape === RHOMBUS){
-        draw_rhombus(ob.x, ob.y, 40);
+        draw_rhombus(ob.x, ob.y);
     }else if(shape === GOOMBA){
-        draw_goomba(ob.x, ob.y-5)
+        draw_goomba(ob.x, ob.y)
+    }else if(shape === IMAGE){
+        draw_image(ob.x, ob.y)
     }
     
 }
@@ -173,7 +176,9 @@ function draw_obstacles(ob){
  * @param {中心のy} y 
  * @param {対角線} diagonal 
  */
-function draw_rhombus(x, y, diagonal){
+function draw_rhombus(x, y){
+    y = y - 10;
+    let diagonal = 40;
     let size = diagonal/2;  // 大体の半径
     ctx.beginPath();
     ctx.moveTo(x, y-size);  // 上
@@ -191,6 +196,7 @@ function draw_rhombus(x, y, diagonal){
  * @param {*} y 
  */
 function draw_goomba(x, y){
+    y = y - 15;
     let width = 30*2;
     let height = 40*2;
     let radius = 7;
@@ -241,6 +247,19 @@ function draw_goomba(x, y){
     // ctx.endPath();
     return {'x': x, 'y': y, 'shape': GOOMBA};
 }
+
+function draw_image(x, y){
+    y = y - 40;
+    const chara = new Image();
+    chara.src="genshijin_fight.png";
+    // console.log(chara);
+    chara.onload = () => {
+        ctx.drawImage(chara, x, y, 80, 80);
+    }
+    return {'x': x, 'y': y, 'shape': IMAGE};
+}
+
+
 
 /*--------------------*
  * tools
@@ -310,6 +329,8 @@ function roundedRectFill(ctx, x, y, width, height, radius){
     roundedRect(ctx, x, y, width, height, radius);
 }
 
+
+
 /*--------------------*
  * メインルーチン
  *--------------------*/
@@ -351,13 +372,16 @@ function draw(){
      */
     // 新しく障害物を作成
     if(Math.random()*1000 > 997){
-        obstacles.push(draw_rhombus(canvas.width, GRAND_Y-20, 40));
+        obstacles.push(draw_rhombus(canvas.width, GRAND_Y));
+    }
+    if(Math.random()*1000 > 997){
+        obstacles.push(draw_image(canvas.width, GRAND_Y));
     }
     if(Math.random()*1000 > 999){
-        obstacles.push(draw_goomba(canvas.width, GRAND_Y-20));
+        obstacles.push(draw_goomba(canvas.width, GRAND_Y));
     }
     // 障害物の移動
-    obstacles.forEach(ob=> ob.x -= BIT_PER_FRAME);
+    obstacles.forEach(ob => ob.x -= BIT_PER_FRAME);
     // カウント
     move_i = (move_i+BIT_PER_FRAME) % canvas.width;
 }
@@ -382,4 +406,5 @@ function game(){
 window.addEventListener('load', ()=>{
     game();
     // draw_goomba(100, 100);
+    // console.log(draw_image(100, 100));
 });
