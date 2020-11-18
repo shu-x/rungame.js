@@ -393,18 +393,6 @@ function game(){
     window.addEventListener('keypress', keydown_func);
     routin = setInterval(draw, 10);
 }
-
-// let callback;
-// window.addEventListener('keypress', keydown_func);
-// function game_with_animation(){
-//     draw();
-//     callback = requestAnimationFrame(game_with_animation);
-// }
-// requestAnimationFrame(game_with_animation);
-
-function start(){
-    setTimeout(game, 3000);
-}
 /**
  * ロードしたら読み込み
  */
@@ -412,8 +400,10 @@ window.addEventListener('load', ()=>{
     
     let startButton = document.getElementById("start-button");
     startButton.addEventListener('click', ()=>{
+        // ボタンを無効に
         startButton.disabled = true;
-        start();
+        // 遅らせて実行
+        setTimeout(game, 300);
     });
     // game();
     // draw_goomba(100, 100);
