@@ -253,9 +253,9 @@ function draw_image(x, y){
     const chara = new Image();
     chara.src="genshijin_fight.png";
     // console.log(chara);
-    chara.onload = () => {
-        ctx.drawImage(chara, x, y, 80, 80);
-    }
+    // chara.onload = () => {
+    ctx.drawImage(chara, x, y, 80, 80);
+    // }
     return {'x': x, 'y': y, 'shape': IMAGE};
 }
 
@@ -402,9 +402,20 @@ function game(){
 // }
 // requestAnimationFrame(game_with_animation);
 
-
+function start(){
+    setTimeout(game, 3000);
+}
+/**
+ * ロードしたら読み込み
+ */
 window.addEventListener('load', ()=>{
-    game();
+    
+    let startButton = document.getElementById("start-button");
+    startButton.addEventListener('click', ()=>{
+        startButton.disabled = true;
+        start();
+    });
+    // game();
     // draw_goomba(100, 100);
     // console.log(draw_image(100, 100));
 });
