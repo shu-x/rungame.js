@@ -251,7 +251,7 @@ function draw_goomba(x, y){
 function draw_image(x, y){
     y = y - 40;
     const chara = new Image();
-    chara.src="genshijin_fight.png";
+    chara.src="images/genshijin_fight.png";
     // console.log(chara);
     // chara.onload = () => {
     ctx.drawImage(chara, x, y, 80, 80);
