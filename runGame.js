@@ -22,6 +22,8 @@ let move_i = 0;
 let jump_i = 0;
 // 上昇中かどうか
 let doJump = false;
+// スコア
+let score = 0;
 
 /**
  * 障害物
@@ -73,6 +75,11 @@ function keydown_func(event){
     // デバック用
     if(event.key === 'c'){
         clearInterval(routin);
+        try{
+            throw new Error("終了");
+        }catch(e){
+            console.error(e.message);
+        }
     }
 }
 
@@ -248,15 +255,29 @@ function draw_goomba(x, y){
     return {'x': x, 'y': y, 'shape': GOOMBA};
 }
 
+/**
+ * 障害物(画像)
+ * @param {*} x 
+ * @param {*} y 
+ */
 function draw_image(x, y){
     y = y - 40;
     const chara = new Image();
-    chara.src="images/genshijin_fight.png";
+    chara.src="images/uni_nokogiri.png";
     // console.log(chara);
     // chara.onload = () => {
     ctx.drawImage(chara, x, y, 80, 80);
     // }
     return {'x': x, 'y': y, 'shape': IMAGE};
+}
+
+/**
+ * スコア計算・表示
+ */
+function draw_score(){
+    score++;
+    ctx.font = "20px serif";
+    ctx.fillText('score: ' + score, 10, 50);
 }
 
 
@@ -329,6 +350,38 @@ function roundedRectFill(ctx, x, y, width, height, radius){
     roundedRect(ctx, x, y, width, height, radius);
 }
 
+/*--------------------*
+ * ゲームオーバ処理
+ *--------------------*/
+function gameOver(){
+    let dialog = document.getElementById("dialog");
+    // ダイアログの表示
+    dialog.style.display = 'block';
+    let dialogScore = document.getElementById("dialog_score");
+    dialogScore.innerHTML = String(score);
+    // 再挑戦のボタンの設定
+    // document.getElementById("dialog_restart").disabled = false;
+
+    /**
+     * 再スタートの設定
+     */
+    let dialogReStart = document.getElementById("dialog_restart");
+    dialogReStart.addEventListener('click', ()=> {
+        // ボタンを無効に
+        dialogReStart.disabled = true;
+        let dialog = document.getElementById("dialog");
+        // ダイアログの表示
+        dialog.style.display = 'none';
+        // 障害物を空に
+        obstacles = [];
+        // スコアをゼロに
+        score = 0;
+        // 遅らせて実行
+        setTimeout(game, 300);
+    });
+    // ここでじゃゔぁに問い合わせる
+}
+
 
 
 /*--------------------*
@@ -344,6 +397,8 @@ function draw(){
     let human_c = draw_human();
     // 障害物を描く
     obstacles.forEach(ob => draw_obstacles(ob));
+    // スコアの描写
+    draw_score();
 
     /**
      * ゲームオーバの判定
@@ -352,7 +407,7 @@ function draw(){
         let isGameOver = false;
         obstacles.forEach(ob =>{
             // 障害物に重なりがあるか
-            if((ob.x-3 <= human_c.x && human_c.x <= ob.x + 3) 
+            if((ob.x-5 <= human_c.x && human_c.x <= ob.x + 5) 
                 && human_c.y+tall+head_radius >= ob.y){
                     isGameOver=true;
             }
@@ -362,7 +417,7 @@ function draw(){
             // ルーチンの停止
             clearInterval(routin);
             // cancelAnimationFrame(callback);
-            alert('GAME OVER');
+            gameOver();
             return;
         }
     }
@@ -393,9 +448,10 @@ function game(){
     window.addEventListener('keypress', keydown_func);
     routin = setInterval(draw, 10);
 }
-/**
- * ロードしたら読み込み
- */
+
+/*--------------------*
+ * 実質main()
+ *--------------------*/
 window.addEventListener('load', ()=>{
     
     let startButton = document.getElementById("start-button");
@@ -405,6 +461,7 @@ window.addEventListener('load', ()=>{
         // 遅らせて実行
         setTimeout(game, 300);
     });
+
     // game();
     // draw_goomba(100, 100);
     // console.log(draw_image(100, 100));

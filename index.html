@@ -16,6 +16,15 @@
     <button type="button" value="start" name="start" id="start-button" style="display: block;" onclick="">スタート</button>
     <canvas id='canvas' width="1000" height="500"></canvas>
 
+    <!-- 確認のダイアログ -->
+    <form id="dialog" name="dialog" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: lightgray;padding:20px;display: none;">
+        <p id="dialog_text">GAMEOVER</p>
+        あなたのスコアは<span id="dialog_score"></span>です．<br>
+        <input id='dialog_restart' type="button" name="dialog_restart" value="1度だけ再挑戦" />
+        <input type="button" name="ranking" value="ランキング一覧へ" />
+        <input type="button" name="bb" value="掲示板へ" />
+      </form>
+
     <script src="runGame.js" type="text/javascript"></script>
 </body>
 
