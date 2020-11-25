@@ -76,7 +76,7 @@ function keydown_func(event){
     if(event.key === 'c'){
         clearInterval(routin);
         try{
-            throw new Error("終了");
+            throw new Error("強制終了します．");
         }catch(e){
             console.error(e.message);
         }
@@ -181,7 +181,6 @@ function draw_obstacles(ob){
  * ひし形を描く
  * @param {中心のx} x 
  * @param {中心のy} y 
- * @param {対角線} diagonal 
  */
 function draw_rhombus(x, y){
     y = y - 10;
@@ -461,8 +460,4 @@ window.addEventListener('load', ()=>{
         // 遅らせて実行
         setTimeout(game, 300);
     });
-
-    // game();
-    // draw_goomba(100, 100);
-    // console.log(draw_image(100, 100));
 });
