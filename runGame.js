@@ -457,6 +457,11 @@ window.addEventListener('load', ()=>{
     startButton.addEventListener('click', ()=>{
         // ボタンを無効に
         startButton.disabled = true;
+
+        /** ハンドルネーム */
+        let userNameElement = document.getElementById("user_name");
+        userName = userNameElement.value;
+        console.log("ハンドルネームは" + userName);
         // 遅らせて実行
         setTimeout(game, 300);
     });
